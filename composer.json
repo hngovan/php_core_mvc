@@ -2,7 +2,8 @@
     "name": "administator/mvc_php",
     "autoload": {
         "psr-4": {
-            "app\\": "./"
+            "app\\": "./app",
+            "core\\": "./core"
         }
     },
     "authors": [

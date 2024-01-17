@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Home</a>
 
@@ -26,9 +26,7 @@
       </div>
     </div>
   </nav>
-  <div class="d-flex justify-content-center mt-5">
-    {{ content }}
-  </div>
+  {{ content }}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
