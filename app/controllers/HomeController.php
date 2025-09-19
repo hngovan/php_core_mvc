@@ -9,7 +9,7 @@ class HomeController extends Controller
   public function index()
   {
     return $this->render('home', [
-      'name' => 'Dashboard Home',
+      'title' => 'Dashboard Home',
     ]);
   }
 }

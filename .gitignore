@@ -1,2 +1,5 @@
-vender
+.idea
+vendor
+composer.lock
+.env
 .vscode

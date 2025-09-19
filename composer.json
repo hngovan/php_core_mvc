@@ -1,5 +1,5 @@
 {
-    "name": "administator/mvc_php",
+    "name": "administrator/mvc_php",
     "autoload": {
         "psr-4": {
             "app\\": "./app",
@@ -12,5 +12,10 @@
             "email": "hngovan1999@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=8.3",
+        "vlucas/phpdotenv": "^5.6",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
+    }
 }
