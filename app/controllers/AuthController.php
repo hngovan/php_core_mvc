@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\middleware\AuthMiddleware;
 use app\models\Login;
 use app\models\User;
 use core\Controller;
@@ -12,11 +11,6 @@ use core\Response;
 
 class AuthController extends Controller
 {
-  public function __construct()
-  {
-    $this->registerMiddleware(new AuthMiddleware(['profile']));
-  }
-
   public function register(Request $request): string
   {
     $user = new User();
@@ -45,6 +39,7 @@ class AuthController extends Controller
       $loginForm->loadData($request->getBody());
 
       if ($loginForm->validate() && $loginForm->login()) {
+        Application::$app->session->setFlash('success', 'Login successful!');
         Application::$app->response->redirect('/');
         return 'Login Successful!';
       }

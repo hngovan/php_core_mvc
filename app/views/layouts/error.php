@@ -8,7 +8,7 @@
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <title><?= htmlspecialchars($this->title ?? 'Home', ENT_QUOTES, 'UTF-8') ?></title>
+  <title><?= htmlspecialchars($this->title ?? 'Page Not Found', ENT_QUOTES, 'UTF-8') ?></title>
   <style>
     .error-container {
       display: flex;

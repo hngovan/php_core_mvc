@@ -15,6 +15,7 @@
       min-height: 100vh;
       transition: all 0.3s;
       height: 100vh;
+      position: fixed;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -26,7 +27,6 @@
 
     @media (max-width: 767.98px) {
       #sidebar {
-        position: fixed;
         z-index: 1000;
         background-color: #f8f9fa;
         width: 80%;
@@ -43,6 +43,26 @@
     .nav-link.active {
       background-color: #e9ecef;
     }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Hide icon dropdown arrow */
+    .dropdown-toggle::after {
+      display: none;
+    }
+
+    /* Toast container */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+    }
   </style>
 </head>
 
@@ -53,13 +73,55 @@
       <?= $this->renderComponent('navbar'); ?>
 
       <!-- Main content -->
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 overflow-auto">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h3"><?= htmlspecialchars($this->title ?? 'Dashboard', ENT_QUOTES, 'UTF-8') ?></h1>
-          <button id="sidebarToggle" class="btn btn-primary d-md-none">
-            <i class="bi bi-list"></i>
-          </button>
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <?php use core\Application; ?>
+            <div class="dropdown">
+              <div class="d-flex align-items-center gap-2 dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"
+                title="<?= htmlspecialchars(Application::$app->user->getDisplayName(), ENT_QUOTES, 'UTF-8') ?>">
+                <div
+                  class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center avatar">
+                  <?php
+                  $displayName = Application::$app->user->getDisplayName();
+                  echo strtoupper(substr($displayName, 0, 1));
+                  ?>
+                </div>
+                <!-- <span class="d-none d-md-inline fw-medium">
+                <?= htmlspecialchars(Application::$app->user->getDisplayName(), ENT_QUOTES, 'UTF-8') ?>
+              </span> -->
+              </div>
+
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="/profile">
+                    <i class="bi bi-person me-2"></i>Profile
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/settings">
+                    <i class="bi bi-gear me-2"></i>Settings
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item text-danger" href="/logout">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                  </a>
+                </li>
+              </ul>
+
+            </div>
+            <button id="sidebarToggle" class="btn btn-primary d-md-none">
+              <i class="bi bi-list"></i>
+            </button>
+          </div>
+
         </div>
         <div class="d-flex flex-column align-items-start">
           {{ content }}
@@ -68,6 +130,9 @@
     </div>
   </div>
 
+  <!-- Toast Component -->
+  <?= $this->renderComponent('toast'); ?>
+
   <!-- <script -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -75,6 +140,14 @@
       const sidebar = document.getElementById('sidebar');
       const sidebarToggle = document.getElementById('sidebarToggle');
       const body = document.body;
+
+      // Initialize toasts
+      const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+      const toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl, {
+          delay: parseInt(toastEl.dataset.bsDelay) || 3000
+        });
+      });
 
       sidebarToggle.addEventListener('click', function () {
         sidebar.classList.toggle('sidebar-hidden');
@@ -102,6 +175,15 @@
           this.classList.add('active');
         });
       });
+
+      // Auto hide toasts after delay
+      setTimeout(function () {
+        toastList.forEach(function (toast) {
+          if (toast._element.classList.contains('show')) {
+            toast.hide();
+          }
+        });
+      }, 5000);
     });
   </script>
 </body>

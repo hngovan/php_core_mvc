@@ -51,7 +51,7 @@ class Application
 
   public function isGuest(): bool
   {
-    return !$this->session->has('user');
+    return !self::$app->user;
   }
 
   public function login($user): bool

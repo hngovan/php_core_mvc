@@ -1,2 +1,8 @@
+<?php use core\Application; ?>
 
-<?= $this->renderComponent('pageTitle', ['name' => $title]) ?>
+<div class="alert alert-success">
+  <div class="d-flex align-items-center gap-1">
+    <span>Welcome</span>
+    <strong><?php echo Application::$app->user->getDisplayName() ?></strong>
+  </div>
+</div>

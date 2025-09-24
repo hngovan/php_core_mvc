@@ -17,12 +17,12 @@ $navItems = [
   [
     'label' => 'Profile',
     'url' => '/profile',
-    'icon' => 'bi bi-person-fill',
+    'icon' => 'bi bi-person',
   ],
   [
-    'label' => 'Products',
-    'url' => '/products',
-    'icon' => 'bi bi-cart',
+    'label' => 'Posts',
+    'url' => '/posts',
+    'icon' => 'bi bi-file-post',
   ]
 ];
 $user = Application::$app->user;
@@ -55,15 +55,4 @@ $user = Application::$app->user;
       <?php endforeach; ?>
     </ul>
   </div>
-
-  <?php if (!Application::$app->isGuest()): ?>
-    <div>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">
-          <i class="bi bi-box-arrow-right me-2"></i>
-          Logout
-        </a>
-      </li>
-    </div>
-  <?php endif; ?>
 </nav>

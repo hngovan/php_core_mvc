@@ -15,7 +15,5 @@ class ContactController extends Controller
 
   public function handleContacts()
   {
-    var_dump($_POST);
-    return "sss";
   }
 }

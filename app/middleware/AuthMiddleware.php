@@ -1,7 +1,7 @@
 <?php
 namespace app\middleware;
 
-use app\exceptions\ForbiddenException;
+// use app\exceptions\ForbiddenException;
 use core\Application;
 use core\Middleware;
 
@@ -17,9 +17,11 @@ class AuthMiddleware extends Middleware
 
   public function execute(): void
   {
-    if (!Application::$app->isGuest()) {
+    if (Application::$app->isGuest()) {
       if (empty($this->actions) || in_array(Application::$app->controller->action, $this->actions)) {
-        throw new ForbiddenException();
+        // throw new ForbiddenException();
+        Application::$app->response->redirect('/login');
+        exit;
       }
     }
   }

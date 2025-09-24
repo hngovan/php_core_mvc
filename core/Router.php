@@ -2,7 +2,7 @@
 
 namespace core;
 
-use app\exception\NotFoundException;
+use app\exceptions\NotFoundException;
 
 class router
 {
@@ -124,7 +124,6 @@ class router
 
     return call_user_func($callback, $this->request, $this->response);
   }
-
 
   public function renderView($view, $params = []): array|string
   {
