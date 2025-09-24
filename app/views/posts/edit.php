@@ -25,6 +25,28 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3">
+                  <label for="image" class="form-label">Featured Image</label>
+                  <input type="file" class="form-control <?= $model->hasError('image') ? 'is-invalid' : '' ?>"
+                    id="image" name="image" accept="image/*">
+
+                  <!-- Preview container -->
+                  <div id="image-preview-container" class="mb-2">
+                    <?php if ($model->image): ?>
+                      <div class="current-image">
+                        <img src="<?= $model->getImageUrl() ?>" alt="Current image" class="img-thumbnail"
+                          style="max-height: 150px;">
+                        <small class="d-block mt-1">Current image</small>
+                      </div>
+                    <?php endif; ?>
+                  </div>
+                  <?php if ($model->hasError('image')): ?>
+                    <div class="invalid-feedback"><?= $model->getFirstError('image') ?></div>
+                  <?php endif; ?>
+                  <div class="form-text">Upload JPG, PNG, or GIF (max 5MB) - Leave empty to keep current image</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
                   <label for="reading_time" class="form-label">Reading Time (minutes)</label>
                   <input type="number" class="form-control <?= $model->hasError('reading_time') ? 'is-invalid' : '' ?>"
                     id="reading_time" name="reading_time" value="<?= $model->reading_time ?? 5 ?>" min="1">
@@ -33,27 +55,9 @@
                   <?php endif; ?>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="image" class="form-label">Featured Image</label>
-                  <?php if ($model->image): ?>
-                    <div class="mb-2">
-                      <img src="<?= $model->getImageUrl() ?>" alt="Current image" class="img-thumbnail"
-                        style="max-height: 150px;">
-                      <small class="d-block mt-1">Current image</small>
-                    </div>
-                  <?php endif; ?>
-                  <input type="file" class="form-control <?= $model->hasError('image') ? 'is-invalid' : '' ?>"
-                    id="image" name="image" accept="image/*">
-                  <?php if ($model->hasError('image')): ?>
-                    <div class="invalid-feedback"><?= $model->getFirstError('image') ?></div>
-                  <?php endif; ?>
-                  <div class="form-text">Upload JPG, PNG, or GIF (max 5MB) - Leave empty to keep current image</div>
-                </div>
-              </div>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 justify-content-end">
               <button type="submit" class="btn btn-primary">Update Post</button>
               <a href="/posts/<?= $model->id ?>" class="btn btn-secondary">Cancel</a>
               <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
@@ -87,3 +91,30 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('image').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    const previewContainer = document.getElementById('image-preview-container');
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        previewContainer.innerHTML = `
+                <img src="${e.target.result}" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
+                <small class="d-block mt-1">New image preview</small>
+            `;
+      }
+
+      reader.readAsDataURL(file);
+    } else if (!file) {
+      const currentImage = document.querySelector('.current-image');
+      if (currentImage) {
+        previewContainer.innerHTML = currentImage.outerHTML;
+      } else {
+        previewContainer.innerHTML = '';
+      }
+    }
+  });
+</script>

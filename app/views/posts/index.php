@@ -15,8 +15,8 @@
     <?php foreach ($posts as $post): ?>
       <div class="col">
         <div class="card h-100 shadow-sm">
-          <img src="<?= $post->getImageUrl() ?>" class="card-img-top"
-            alt="<?= htmlspecialchars($post->title, ENT_QUOTES) ?>" style="height: 200px; object-fit: cover;">
+          <img src="<?= $post->getImageUrl() ?>" class="card-img-top bg-secondary"
+            alt="<?= htmlspecialchars($post->title, ENT_QUOTES) ?>" style="height: 200px; object-fit: contain;">
           <div class="card-body">
             <h5 class="card-title"><?= htmlspecialchars($post->title, ENT_QUOTES) ?></h5>
             <p class="card-text"><?= htmlspecialchars($post->getExcerpt(150), ENT_QUOTES) ?></p>
